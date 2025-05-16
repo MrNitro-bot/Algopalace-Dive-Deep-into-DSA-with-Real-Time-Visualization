@@ -212,9 +212,9 @@ export function AlgorithmVisualizer() {
   return (
     <div className="rounded-lg border bg-card p-6 shadow-sm">
       <div className="mb-6 flex flex-col gap-4">
-        <div className="flex flex-wrap items-center justify-between gap-4">
+        <div className="flex flex-col sm:flex-row flex-wrap items-start sm:items-center justify-between gap-4">
           <h3 className="text-2xl font-bold">{getAlgorithmName()}</h3>
-          <div className="flex gap-2">
+          <div className="flex flex-wrap gap-2">
             <Button
               variant="outline"
               size="sm"
@@ -272,7 +272,7 @@ export function AlgorithmVisualizer() {
           {array.map((value, index) => (
             <motion.div
               key={index}
-              className={`${getBarColor(index)} rounded-t-md w-12 flex items-end justify-center`}
+              className={`${getBarColor(index)} rounded-t-md w-6 sm:w-8 md:w-12 flex items-end justify-center`}
               style={{ height: `${value * 2}px` }}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -285,7 +285,7 @@ export function AlgorithmVisualizer() {
         </AnimatePresence>
       </div>
 
-      <div className="mt-6 flex flex-wrap items-center justify-between gap-4">
+      <div className="mt-6 flex flex-col sm:flex-row flex-wrap items-center justify-between gap-4">
         <div className="flex items-center gap-2">
           <Button variant="outline" size="icon" onClick={resetArray}>
             <RotateCcw className="h-4 w-4" />
@@ -310,7 +310,7 @@ export function AlgorithmVisualizer() {
           </Button>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 mt-4 sm:mt-0">
           <Button variant="outline" onClick={generateArray}>
             New Array
           </Button>

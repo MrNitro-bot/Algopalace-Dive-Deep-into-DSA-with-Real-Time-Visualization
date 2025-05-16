@@ -18,7 +18,7 @@ export function HeroSection() {
     // Set canvas dimensions
     const setCanvasDimensions = () => {
       canvas.width = window.innerWidth
-      canvas.height = 500
+      canvas.height = window.innerWidth < 768 ? 400 : 500
     }
 
     setCanvasDimensions()
@@ -133,7 +133,7 @@ export function HeroSection() {
 
   return (
     <section className="relative overflow-hidden">
-      <canvas ref={canvasRef} className="absolute inset-0 z-0 opacity-70" style={{ height: "500px" }} />
+      <canvas ref={canvasRef} className="absolute inset-0 z-0 opacity-70" style={{ height: "100%" }} />
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 py-24 md:py-32">
         <div className="grid gap-6 lg:grid-cols-[1fr_400px] lg:gap-12 xl:grid-cols-[1fr_600px]">
           <motion.div
@@ -152,14 +152,18 @@ export function HeroSection() {
               </p>
             </div>
             <div className="flex flex-col gap-2 min-[400px]:flex-row">
-              <Link href="/get-started">
+              <Link href="/#algorithm-visualizer">
                 <Button size="lg">Get Started</Button>
               </Link>
-              <Link href="/curriculum">
-                <Button variant="outline" size="lg">
-                  Explore Curriculum
-                </Button>
-              </Link>
+              <Button
+                size="lg"
+                variant="outline"
+                onClick={() => {
+                  window.location.href = "/learning-journey"
+                }}
+              >
+                Explore Curriculum
+              </Button>
             </div>
           </motion.div>
           <motion.div
@@ -168,7 +172,7 @@ export function HeroSection() {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
-            <div className="relative h-[350px] w-full overflow-hidden rounded-lg border bg-background p-4 shadow-xl">
+            <div className="relative h-[250px] sm:h-[300px] md:h-[350px] w-full overflow-hidden rounded-lg border bg-background p-4 shadow-xl">
               <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-background/0 opacity-50" />
               <div className="relative z-10 h-full flex flex-col">
                 <div className="flex items-center gap-2 border-b pb-2">
