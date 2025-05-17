@@ -155,15 +155,11 @@ export function HeroSection() {
               <Link href="/#algorithm-visualizer">
                 <Button size="lg">Get Started</Button>
               </Link>
-              <Button
-                size="lg"
-                variant="outline"
-                onClick={() => {
-                  window.location.href = "/learning-journey"
-                }}
-              >
-                Explore Curriculum
-              </Button>
+              <Link href="/roadmap">
+                <Button variant="outline" size="lg">
+                  Explore Curriculum
+                </Button>
+              </Link>
             </div>
           </motion.div>
           <motion.div
