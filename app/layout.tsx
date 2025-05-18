@@ -5,8 +5,13 @@ import ClientRootLayout from "./client-layout"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata = {
-  title: "AlgoMaster - Learn Data Structures and Algorithms",
+  title: "AlgoPalace - Learn Data Structures and Algorithms",
   description: "Interactive platform to learn and practice data structures and algorithms",
+  icons: {
+    icon: "/favicon.png",
+    shortcut: "/favicon.png",
+    apple: "/favicon.png",
+  },
     generator: 'v0.dev'
 }
 

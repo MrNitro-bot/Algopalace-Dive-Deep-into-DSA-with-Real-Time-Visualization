@@ -23,7 +23,7 @@ export default function ClientRootLayout({ children }: { children: React.ReactNo
                   <div className="flex items-center gap-2">
                     <Cpu className="h-6 w-6" />
                     <Link href="/" className="text-xl font-bold">
-                      AlgoMaster
+                      AlgoPalace
                     </Link>
                   </div>
                   <nav className="hidden md:flex items-center gap-6 text-sm">
@@ -130,7 +130,7 @@ export default function ClientRootLayout({ children }: { children: React.ReactNo
               <footer className="border-t py-6 md:py-0">
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center justify-between gap-4 md:h-24 md:flex-row">
                   <p className="text-center text-sm leading-loose text-muted-foreground md:text-left">
-                    © 2024 AlgoMaster. All rights reserved.
+                    © 2024 AlgoPalace. All rights reserved.
                   </p>
                   <div className="flex items-center gap-4">
                     <Link href="/terms" className="text-sm text-muted-foreground underline-offset-4 hover:underline">
