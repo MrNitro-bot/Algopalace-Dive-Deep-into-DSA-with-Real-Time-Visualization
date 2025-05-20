@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button"
 
 export default function SortingAlgorithmsPage() {
   return (
-    <div className="container py-10">
+    <div className="container py-10 px-4 md:px-6">
       <div className="flex items-center mb-6">
         <Link href="/algorithms" className="flex items-center text-sm text-muted-foreground hover:text-foreground">
           <ArrowLeft className="mr-2 h-4 w-4" />
