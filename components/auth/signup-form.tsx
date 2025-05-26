@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useToast } from "@/hooks/use-toast"
+import { isSupabaseConfigured } from "@/lib/supabase"
 
 interface SignUpFormProps {
   onSuccess?: () => void
@@ -38,11 +39,21 @@ export function SignUpForm({ onSuccess, onLoginClick }: SignUpFormProps) {
         return
       }
 
+      const modeMessage = isSupabaseConfigured()
+        ? "Account created successfully. You are now logged in!"
+        : "Demo account created successfully. You are now logged in!"
+
       toast({
-        title: "Success",
-        description: "Your account has been created. Please check your email for verification.",
+        title: "Welcome to AlgoPalace!",
+        description: `${modeMessage} Welcome, ${fullName}.`,
       })
 
+      // Clear the form
+      setEmail("")
+      setPassword("")
+      setFullName("")
+
+      // Close the modal since user is now logged in
       if (onSuccess) {
         onSuccess()
       }
@@ -58,52 +69,62 @@ export function SignUpForm({ onSuccess, onLoginClick }: SignUpFormProps) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4 py-2">
-      <div className="space-y-2">
-        <Label htmlFor="fullName">Full Name</Label>
-        <Input
-          id="fullName"
-          placeholder="John Doe"
-          value={fullName}
-          onChange={(e) => setFullName(e.target.value)}
-          required
-          disabled={isLoading}
-        />
-      </div>
-      <div className="space-y-2">
-        <Label htmlFor="email">Email</Label>
-        <Input
-          id="email"
-          type="email"
-          placeholder="your.email@example.com"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-          disabled={isLoading}
-        />
-      </div>
-      <div className="space-y-2">
-        <Label htmlFor="password">Password</Label>
-        <Input
-          id="password"
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-          disabled={isLoading}
-          minLength={6}
-        />
-        <p className="text-xs text-muted-foreground">Password must be at least 6 characters long</p>
-      </div>
-      <Button type="submit" className="w-full" disabled={isLoading}>
-        {isLoading ? "Creating account..." : "Sign up"}
-      </Button>
-      <div className="text-center text-sm">
-        Already have an account?{" "}
-        <Button variant="link" onClick={onLoginClick} className="p-0" disabled={isLoading}>
-          Log in
+    <div className="space-y-4">
+      {!isSupabaseConfigured() && (
+        <div className="bg-blue-50 border border-blue-200 rounded-md p-3">
+          <p className="text-sm text-blue-800">
+            <strong>Demo Mode:</strong> Your account will be stored locally for this session only.
+          </p>
+        </div>
+      )}
+
+      <form onSubmit={handleSubmit} className="space-y-4 py-2">
+        <div className="space-y-2">
+          <Label htmlFor="fullName">Full Name</Label>
+          <Input
+            id="fullName"
+            placeholder="John Doe"
+            value={fullName}
+            onChange={(e) => setFullName(e.target.value)}
+            required
+            disabled={isLoading}
+          />
+        </div>
+        <div className="space-y-2">
+          <Label htmlFor="email">Email</Label>
+          <Input
+            id="email"
+            type="email"
+            placeholder="your.email@example.com"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            disabled={isLoading}
+          />
+        </div>
+        <div className="space-y-2">
+          <Label htmlFor="password">Password</Label>
+          <Input
+            id="password"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+            disabled={isLoading}
+            minLength={6}
+          />
+          <p className="text-xs text-muted-foreground">Password must be at least 6 characters long</p>
+        </div>
+        <Button type="submit" className="w-full" disabled={isLoading}>
+          {isLoading ? "Creating account..." : "Sign up"}
         </Button>
-      </div>
-    </form>
+        <div className="text-center text-sm">
+          Already have an account?{" "}
+          <Button variant="link" onClick={onLoginClick} className="p-0" disabled={isLoading}>
+            Log in
+          </Button>
+        </div>
+      </form>
+    </div>
   )
 }
