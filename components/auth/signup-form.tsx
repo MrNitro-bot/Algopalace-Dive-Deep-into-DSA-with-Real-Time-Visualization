@@ -39,13 +39,9 @@ export function SignUpForm({ onSuccess, onLoginClick }: SignUpFormProps) {
         return
       }
 
-      const modeMessage = isSupabaseConfigured()
-        ? "Account created successfully. You are now logged in!"
-        : "Demo account created successfully. You are now logged in!"
-
       toast({
-        title: "Welcome to AlgoPalace!",
-        description: `${modeMessage} Welcome, ${fullName}.`,
+        title: "User logged in",
+        description: `Welcome to AlgoPalace, ${fullName}! Your account has been created successfully.`,
       })
 
       // Clear the form

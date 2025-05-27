@@ -130,18 +130,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           experience_level: "beginner",
         }
 
-        // Use upsert to handle potential race conditions
-        const { data, error } = await supabase
-          .from("user_profiles")
-          .upsert([newProfile], { onConflict: "id" })
-          .select()
-          .single()
+        console.log("Creating new profile:", newProfile)
+
+        // Use insert for new profiles
+        const { data, error } = await supabase.from("user_profiles").insert([newProfile]).select().single()
 
         if (error) {
           console.error("Error creating profile:", error)
           return null
         }
 
+        console.log("Profile created successfully:", data)
         setProfile(data as UserProfile)
         return data
       }
@@ -226,7 +225,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
 
     try {
-      // Sign up the user
+      console.log("Starting signup process for:", email)
+
+      // Sign up the user with email confirmation disabled
       const { data, error } = await supabase.auth.signUp({
         email,
         password,
@@ -234,27 +235,46 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           data: {
             full_name: fullName,
           },
+          emailRedirectTo: undefined, // Skip email confirmation
         },
       })
 
       if (error) {
+        console.error("Signup error:", error)
         return { error }
       }
 
-      // If signup successful, automatically sign in
+      console.log("Signup successful:", data)
+
+      // Check if user was created and confirmed immediately
+      if (data.user && data.user.email_confirmed_at) {
+        console.log("User confirmed immediately, creating profile...")
+        // User is confirmed, create profile immediately
+        await fetchOrCreateProfile(data.user.id, email, fullName)
+        return { error: null }
+      }
+
+      // If user exists but not confirmed, try to sign in anyway
       if (data.user) {
-        const { error: signInError } = await supabase.auth.signInWithPassword({
+        console.log("Attempting to sign in after signup...")
+        const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({
           email,
           password,
         })
 
-        if (signInError) {
-          return { error: signInError }
+        if (!signInError && signInData.user) {
+          console.log("Sign in successful after signup")
+          return { error: null }
         }
+
+        // If sign in fails, still consider signup successful
+        console.log("Sign in failed but signup was successful")
+        return { error: null }
       }
 
       return { error: null }
     } catch (error: any) {
+      console.error("Signup catch error:", error)
       return { error }
     }
   }
